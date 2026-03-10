@@ -285,3 +285,22 @@ async function sendMsg() {
     console.error('Telegram error:', e);
   }
 }
+
+/* ══════════ DAILY MESSAGE ══════════ */
+
+
+function setDailyMessage() {
+  const el   = document.getElementById('dailyMsg');
+  const date = document.getElementById('dailyDate');
+  if (!el) return;
+
+  const now      = new Date();
+  const start    = new Date(now.getFullYear(), 0, 0);
+  const dayOfYear = Math.floor((now - start) / 86400000);
+  const idx      = dayOfYear % dailyMessages.length;
+
+  el.textContent   = dailyMessages[idx];
+  date.textContent = now.toLocaleDateString('ar-EG', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+}
+
+setDailyMessage();
