@@ -18,13 +18,45 @@ async function trackVisitor() {
 
     const ua      = navigator.userAgent;
     const mobile  = /Android|iPhone|iPad/i.test(ua);
+
+    // نوع المتصفح
     const browser = ua.includes('Edg') ? 'Edge' : ua.includes('Chrome') ? 'Chrome' : ua.includes('Firefox') ? 'Firefox' : ua.includes('Safari') ? 'Safari' : 'Other';
-    const os      = ua.includes('Windows') ? 'Windows' : ua.includes('Mac') ? 'Mac' : ua.includes('Android') ? 'Android' : ua.includes('iPhone') ? 'iPhone' : ua.includes('Linux') ? 'Linux' : 'Other';
+
+    // نظام التشغيل
+    const os = ua.includes('Windows NT 10') ? 'Windows 10/11' : ua.includes('Windows') ? 'Windows' : ua.includes('Mac') ? 'Mac' : ua.includes('Android') ? 'Android' : ua.includes('iPhone') ? 'iPhone' : ua.includes('iPad') ? 'iPad' : ua.includes('Linux') ? 'Linux' : 'Other';
+
+    // ماركة وموديل الجهاز
+    let deviceModel = '?';
+    const samsungMatch = ua.match(/Samsung[- ]([A-Za-z0-9]+)/i) || ua.match(/SM-([A-Za-z0-9]+)/i);
+    const iPhoneMatch  = ua.match(/iPhone OS ([\d_]+)/i);
+    const iPadMatch    = ua.match(/iPad.*OS ([\d_]+)/i);
+    const xiaomiMatch  = ua.match(/Xiaomi[/ ]([A-Za-z0-9 ]+)/i) || ua.match(/Redmi[/ ]([A-Za-z0-9 ]+)/i);
+    const huaweiMatch  = ua.match(/Huawei[/ -]([A-Za-z0-9]+)/i) || ua.match(/HW-([A-Za-z0-9]+)/i);
+    const oppoMatch    = ua.match(/OPPO[/ ]([A-Za-z0-9]+)/i) || ua.match(/CPH([A-Za-z0-9]+)/i);
+    const vivoMatch    = ua.match(/vivo[/ ]([A-Za-z0-9]+)/i);
+    const oneplusMatch = ua.match(/OnePlus[/ ]([A-Za-z0-9]+)/i);
+    const androidModel = ua.match(/Android[\d. ]+;([^)]+)/i);
+
+    if (iPhoneMatch)       deviceModel = 'iPhone (iOS ' + iPhoneMatch[1].replace(/_/g,'.') + ')';
+    else if (iPadMatch)    deviceModel = 'iPad (iOS ' + iPadMatch[1].replace(/_/g,'.') + ')';
+    else if (samsungMatch) deviceModel = 'Samsung ' + samsungMatch[1];
+    else if (xiaomiMatch)  deviceModel = 'Xiaomi ' + xiaomiMatch[1].trim();
+    else if (huaweiMatch)  deviceModel = 'Huawei ' + huaweiMatch[1];
+    else if (oppoMatch)    deviceModel = 'OPPO ' + oppoMatch[1];
+    else if (vivoMatch)    deviceModel = 'Vivo ' + vivoMatch[1];
+    else if (oneplusMatch) deviceModel = 'OnePlus ' + oneplusMatch[1];
+    else if (androidModel) deviceModel = androidModel[1].trim().split(';')[0].trim();
     const now     = new Date().toLocaleString('ar-EG', { timeZone: 'Africa/Cairo' });
     const tz      = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const lang    = navigator.language || '?';
     const screens = window.screen.availWidth + 'x' + window.screen.availHeight;
-    const conn    = navigator.connection ? (navigator.connection.effectiveType || '?') : '?';
+    // نوع الاتصال
+    let conn = '?';
+    if (navigator.connection) {
+      const c = navigator.connection;
+      conn = c.effectiveType || c.type || '?';
+      if (c.downlink) conn += ' (' + c.downlink + ' Mbps)';
+    }
     const isp     = geo.org || '?';
 
     // بطارية
