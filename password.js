@@ -71,7 +71,7 @@ async function hashText(text) {
   return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
 }
 
-const _h1 = '85cb8afaf58c3197561f433c1e758e9a9afc1713190af2639be52f2e795de84a';
+const _h1 = '312eddecf65d25e7f04f411d5046a8541a5b3b2aee12bafe4590342f1516d4c2'; 
 const _h2 = '5b7b2069bbc6f187dbd2ac6d2f1b10ae8a11eac3379f5a780be51258b765d7fb';
 
 /* ── التحقق من الباسورد ── */
