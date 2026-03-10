@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <script>if(!sessionStorage.getItem("auth")){window.location.replace("index.html");}</script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>💕 ذكرياتنا</title>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Tajawal:wght@300;400;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="gallery.css"/>
+</head>
+<body>
+
+<div id="cursor">💗</div>
+<canvas id="heartsCanvas"></canvas>
+
+<header class="gallery-header">
+  <a href="home.html" class="back-btn">← رجوع للموقع</a>
+  <h1>📸 ذكرياتنا</h1>
+  <p>كل صورة تحكي قصة، وكل لحظة لا تُنسى</p>
+</header>
+
+<section class="audio-section">
+  <div class="audio-card">
+    <div class="audio-icon">🎵</div>
+    <div class="audio-info"><h3>أغنيتنا</h3></div>
+    <div class="audio-player" id="audioPlayer">
+      <audio id="ourSong" preload="metadata">
+        <source src="audio/7obk-Rezk.mp3" type="audio/mpeg">
+      </audio>
+      <button class="play-btn" id="playBtn" onclick="togglePlay()">▶</button>
+      <div class="audio-progress-wrap">
+        <div class="audio-bar" onclick="seekAudio(event)">
+          <div class="audio-fill" id="audioFill"></div>
+        </div>
+        <div class="audio-times">
+          <span id="curTime">0:00</span>
+          <span id="durTime">0:00</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="gallery-section">
+  <div class="gallery-grid">
+
+    <div class="photo-card">
+      <div class="photo-wrap">
+        <img src="images/photo1.jpg" alt="ذكرى 1" onerror="this.parentElement.classList.add('empty')" />
+        <div class="photo-placeholder"><span>📷</span><p>أضف صورتك هنا</p><small>images/photo1.jpg</small></div>
+      </div>
+      <div class="photo-caption">أول لقاء 💖</div>
+    </div>
+
+    <div class="photo-card">
+      <div class="photo-wrap">
+        <img src="images/photo2.jpg" alt="ذكرى 2" onerror="this.parentElement.classList.add('empty')" />
+        <div class="photo-placeholder"><span>📷</span><p>أضف صورتك هنا</p><small>images/photo2.jpg</small></div>
+      </div>
+      <div class="photo-caption">لحظة لا تُنسى ✨</div>
+    </div>
+
+    <div class="photo-card">
+      <div class="photo-wrap">
+        <img src="images/photo3.jpg" alt="ذكرى 3" onerror="this.parentElement.classList.add('empty')" />
+        <div class="photo-placeholder"><span>📷</span><p>أضف صورتك هنا</p><small>images/photo3.jpg</small></div>
+      </div>
+      <div class="photo-caption">معكِ كل شيء أجمل 🌸</div>
+    </div>
+
+    <div class="photo-card">
+      <div class="photo-wrap">
+        <img src="images/photo4.jpg" alt="ذكرى 4" onerror="this.parentElement.classList.add('empty')" />
+        <div class="photo-placeholder"><span>📷</span><p>أضف صورتك هنا</p><small>images/photo4.jpg</small></div>
+      </div>
+      <div class="photo-caption">ابتسامتكِ تضيء يومي 😊</div>
+    </div>
+
+    <div class="photo-card">
+      <div class="photo-wrap">
+        <img src="images/photo5.jpg" alt="ذكرى 5" onerror="this.parentElement.classList.add('empty')" />
+        <div class="photo-placeholder"><span>📷</span><p>أضف صورتك هنا</p><small>images/photo5.jpg</small></div>
+      </div>
+      <div class="photo-caption">أحبّكِ كل يوم أكثر 💕</div>
+    </div>
+
+    <div class="photo-card">
+      <div class="photo-wrap">
+        <img src="images/photo6.jpg" alt="ذكرى 6" onerror="this.parentElement.classList.add('empty')" />
+        <div class="photo-placeholder"><span>📷</span><p>أضف صورتك هنا</p><small>images/photo6.jpg</small></div>
+      </div>
+      <div class="photo-caption">معاً إلى الأبد 🌙</div>
+    </div>
+
+  </div>
+</section>
+
+<div id="lightbox" class="lightbox">
+  <button class="lb-close" onclick="closeLightbox()">✕</button>
+  <button class="lb-prev" onclick="changePhoto(-1)">&#8249;</button>
+  <button class="lb-next" onclick="changePhoto(1)">&#8250;</button>
+  <div class="lb-content">
+    <img id="lbImg" src="" alt="" />
+    <p id="lbCaption"></p>
+  </div>
+</div>
+
+<footer>
+  صُنع بـ <span>❤</span> — الحب أجمل ما في الوجود
+</footer>
+
+<script src="script.js"></script>
+<script src="music.js"></script>
+<script src="gallery.js"></script>
+</body>
+</html>

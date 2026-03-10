@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <script>if(!sessionStorage.getItem("auth")){window.location.replace("index.html");}</script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>💌 ابعت رسالة حب</title>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Tajawal:wght@300;400;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    .msg-header {
+      position: relative;
+      z-index: 1;
+      background: linear-gradient(135deg, var(--rose) 0%, var(--wine) 100%);
+      color: #fff;
+      text-align: center;
+      padding: 4rem 1.5rem 3rem;
+    }
+
+    .msg-header h1 {
+      font-family: 'Amiri', serif;
+      font-size: clamp(2rem, 6vw, 3.5rem);
+      margin-bottom: .6rem;
+    }
+
+    .msg-header p {
+      font-size: 1.05rem;
+      opacity: .8;
+      font-weight: 300;
+    }
+
+    .back-btn {
+      position: absolute;
+      top: 1.4rem;
+      right: 1.5rem;
+      color: rgba(255,255,255,.85);
+      text-decoration: none;
+      font-size: .95rem;
+      border: 1px solid rgba(255,255,255,.4);
+      padding: .4rem 1rem;
+      border-radius: 50px;
+      transition: background .2s;
+      font-family: 'Tajawal', sans-serif;
+    }
+    .back-btn:hover { background: rgba(255,255,255,.15); color: #fff; }
+
+    .msg-page-section {
+      position: relative;
+      z-index: 1;
+      min-height: 70vh;
+      background: linear-gradient(160deg, #fff5f7 0%, #fce4ec 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4rem 1.5rem;
+    }
+
+    .msg-card {
+      background: #fff;
+      max-width: 560px;
+      width: 100%;
+      border-radius: 20px;
+      padding: 3rem 2.5rem;
+      box-shadow:
+        0 4px 0 var(--blush),
+        0 20px 60px rgba(232,71,106,.12);
+      position: relative;
+      animation: fadeUp .7s ease both;
+    }
+
+    .msg-card::before {
+      content: '💌';
+      font-size: 3rem;
+      display: block;
+      text-align: center;
+      margin-bottom: 1.2rem;
+      animation: heartbeat 1.4s ease-in-out infinite;
+    }
+
+    .msg-card h2 {
+      font-family: 'Amiri', serif;
+      font-size: 1.8rem;
+      color: var(--wine);
+      text-align: center;
+      margin-bottom: 2rem;
+      border-bottom: 2px dashed var(--blush);
+      padding-bottom: .8rem;
+    }
+
+    .msg-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: .3rem;
+    }
+
+    .input-group label {
+      font-size: .9rem;
+      color: var(--wine);
+      font-weight: 600;
+      padding-right: .2rem;
+    }
+
+    .msg-wrap input,
+    .msg-wrap textarea {
+      border: 2px solid var(--blush);
+      border-radius: 12px;
+      padding: .85rem 1.2rem;
+      font-family: 'Tajawal', sans-serif;
+      font-size: 1rem;
+      background: #fff;
+      color: #5a2230;
+      outline: none;
+      resize: none;
+      transition: border-color .2s, box-shadow .2s;
+      direction: rtl;
+      width: 100%;
+    }
+
+    .msg-wrap input:focus,
+    .msg-wrap textarea:focus {
+      border-color: var(--rose);
+      box-shadow: 0 0 0 3px rgba(232,71,106,.1);
+    }
+
+    .send-btn {
+      background: linear-gradient(135deg, var(--rose), var(--wine));
+      color: #fff;
+      border: none;
+      border-radius: 50px;
+      padding: 1rem 2.5rem;
+      font-family: 'Tajawal', sans-serif;
+      font-size: 1.15rem;
+      cursor: pointer;
+      letter-spacing: .05em;
+      transition: transform .2s, box-shadow .2s;
+      align-self: center;
+      margin-top: .5rem;
+      font-weight: 700;
+    }
+
+    .send-btn:hover {
+      transform: scale(1.06);
+      box-shadow: 0 8px 24px rgba(232,71,106,.4);
+    }
+
+    #thankMsg {
+      display: none;
+      margin-top: 1.2rem;
+      font-family: 'Amiri', serif;
+      font-size: 1.3rem;
+      color: var(--wine);
+      text-align: center;
+      animation: fadeUp .5s ease both;
+      padding: 1rem;
+      background: var(--petal);
+      border-radius: 12px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="cursor">💗</div>
+<canvas id="heartsCanvas"></canvas>
+
+<!-- Header -->
+<header class="msg-header">
+  <a href="home.html" class="back-btn">← رجوع للموقع</a>
+  <h1>ابعت رسالة حب</h1>
+  <p>كل كلمة بتكتبها بتوصل من القلب للقلب 💕</p>
+</header>
+
+<!-- Message Form -->
+<section class="msg-page-section">
+  <div class="msg-card">
+    <h2>اكتب رسالتك 💌</h2>
+    <div class="msg-wrap">
+
+      <div class="input-group">
+        <label>اسمك</label>
+        <input type="text" id="senderName" placeholder="اكتب اسمك هنا..." />
+      </div>
+
+      <div class="input-group">
+        <label>اسم اللي بتحبه/بتحبها</label>
+        <input type="text" id="receiverName" placeholder="اكتب اسمه/اسمها هنا..." />
+      </div>
+
+      <div class="input-group">
+        <label>رسالتك</label>
+        <textarea id="msgText" rows="6" placeholder="اكتب كلامك من القلب..."></textarea>
+      </div>
+
+      <button class="send-btn" onclick="sendMsg()">أرسل الحب 💖</button>
+      <div id="thankMsg"></div>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  صُنع بـ <span>❤</span> — الحب أجمل ما في الوجود
+</footer>
+
+<script src="script.js"></script>
+<script src="music.js"></script>
+</body>
+</html>

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <script>if(!sessionStorage.getItem("auth")){window.location.replace("index.html");}</script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>💖 رسالة حب</title>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Tajawal:wght@300;400;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    .two-btns-section {
+      position: relative;
+      z-index: 1;
+      background: var(--cream);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1.4rem;
+      padding: 3.5rem 1.5rem;
+      flex-wrap: wrap;
+    }
+    .main-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      text-decoration: none;
+      font-family: 'Tajawal', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      padding: 1rem 2.6rem;
+      border-radius: 50px;
+      transition: transform .22s, box-shadow .22s;
+      letter-spacing: .04em;
+    }
+    .btn-gallery {
+      background: linear-gradient(135deg, #e8476a, #7b1535);
+      color: #fff;
+      box-shadow: 0 8px 24px rgba(232,71,106,.35);
+    }
+    .btn-msg {
+      background: #fff;
+      color: var(--wine);
+      border: 2px solid var(--blush);
+      box-shadow: 0 8px 24px rgba(232,71,106,.12);
+    }
+    .main-btn:hover {
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 14px 32px rgba(232,71,106,.4);
+    }
+  
+    /* ── SPLASH ── */
+    #splash {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(135deg, #7b1535 0%, #c0284e 50%, #e8476a 100%);
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      transition: opacity .8s ease, visibility .8s ease;
+    }
+
+    #splash.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .splash-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.2rem;
+      animation: fadeUp .8s ease both;
+    }
+
+    .splash-heart {
+      font-size: clamp(80px, 20vw, 140px);
+      animation: heartbeat 1.4s ease-in-out infinite;
+      filter: drop-shadow(0 0 40px rgba(255,255,255,.4));
+    }
+
+    .splash-title {
+      font-family: 'Amiri', serif;
+      font-size: clamp(2.2rem, 8vw, 5rem);
+      color: #fff;
+      text-shadow: 0 2px 20px rgba(0,0,0,.2);
+    }
+
+    .splash-sub {
+      color: rgba(255,255,255,.8);
+      font-size: clamp(.95rem, 2.5vw, 1.3rem);
+      font-weight: 300;
+    }
+
+    .splash-btn {
+      margin-top: .8rem;
+      background: rgba(255,255,255,.15);
+      border: 2px solid rgba(255,255,255,.6);
+      color: #fff;
+      font-family: 'Tajawal', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      padding: .9rem 3rem;
+      border-radius: 50px;
+      cursor: pointer;
+      letter-spacing: .08em;
+      transition: background .2s, transform .2s, box-shadow .2s;
+      backdrop-filter: blur(6px);
+    }
+
+    .splash-btn:hover {
+      background: rgba(255,255,255,.3);
+      transform: scale(1.06);
+      box-shadow: 0 8px 30px rgba(0,0,0,.2);
+    }
+  </style>
+  <style>
+    .gallery-link-section {
+      position: relative;
+      z-index: 1;
+      background: var(--cream);
+      text-align: center;
+      padding: 3rem 1.5rem;
+    }
+    .gallery-link-btn {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--rose), var(--wine));
+      color: #fff;
+      text-decoration: none;
+      font-family: 'Tajawal', sans-serif;
+      font-size: 1.2rem;
+      padding: 1rem 2.8rem;
+      border-radius: 50px;
+      box-shadow: 0 8px 24px rgba(232,71,106,.3);
+      transition: transform .2s, box-shadow .2s;
+      letter-spacing: .05em;
+    }
+    .gallery-link-btn:hover {
+      transform: scale(1.06);
+      box-shadow: 0 12px 32px rgba(232,71,106,.45);
+    }
+  </style>
+</head>
+<body>
+
+<!-- Custom cursor -->
+<!-- ══════════ SPLASH SCREEN ══════════ -->
+<div id="splash">
+  <div class="splash-content">
+    <div class="splash-heart">💖</div>
+    <h1 class="splash-title">لكِ وحدكِ</h1>
+    <p class="splash-sub">اضغط عشان تدخل لعالمنا</p>
+    <button class="splash-btn" onclick="enterSite()">ادخل ❤</button>
+  </div>
+</div>
+
+<div id="cursor">💗</div>
+
+<!-- Floating hearts canvas -->
+<canvas id="heartsCanvas"></canvas>
+
+<!-- ══════════ HERO ══════════ -->
+<section class="hero">
+  <span class="big-heart">💖</span>
+  <h1>أنتِ كل شيء</h1>
+  <p>في كل نبضة قلب، في كل لحظة صمت، في كل فكرة — أجدكِ أنتِ</p>
+  <div class="scroll-hint">↓ تابع ↓</div>
+</section>
+
+<!-- RIBBON -->
+<div class="ribbon">
+  💕 &nbsp; بكل حب &nbsp; 💕 &nbsp; بكل صدق &nbsp; 💕 &nbsp; إلى الأبد &nbsp; 💕
+</div>
+
+<!-- ══════════ LETTER ══════════ -->
+<section class="letter-section">
+  <div class="letter-card">
+    <h2>رسالة من القلب</h2>
+    <p>
+      حبيبتي، منذ أن دخلتِ حياتي صار كل يوم أجمل،
+      وصار المعنى أوضح، والطريق أقل وعورة.
+    </p>
+    <p>
+      تعلّمتُ منكِ أن الحب ليس مجرد كلمة تُقال، بل هو
+      نظرة تحمل ألف معنى، وابتسامة تكفي لتُزيل كل تعب.
+    </p>
+    <p>
+      أحبّكِ اليوم أكثر مما أحببتكِ أمس، وغداً سأحبّكِ أكثر من اليوم —
+      لأن الحبّ الحقيقي لا سقف له.
+    </p>
+    <div class="letter-signature">— دائماً لكِ ❤</div>
+  </div>
+</section>
+
+<!-- ══════════ TWO BUTTONS ══════════ -->
+<section class="two-btns-section">
+  <a href="gallery.html" class="main-btn btn-gallery">
+    📸 شوف ذكرياتنا
+  </a>
+  <a href="message.html" class="main-btn btn-msg">
+    💌 ابعت رسالة حب
+  </a>
+</section>
+
+<!-- ══════════ REASONS ══════════ -->
+<section class="reasons-section">
+  <h2 class="section-title">لماذا أحبّكِ؟</h2>
+  <div class="reasons-grid" id="reasonsGrid"></div>
+</section>
+
+<!-- ══════════ COUNTDOWN ══════════ -->
+<section class="countdown-section">
+  <h2>⏳ كم مضى على أول لقاء؟</h2>
+  <div class="countdown-row">
+    <div class="cd-box"><span class="cd-num" id="cdD">000</span><span class="cd-label">يوم</span></div>
+    <div class="cd-box"><span class="cd-num" id="cdH">00</span><span class="cd-label">ساعة</span></div>
+    <div class="cd-box"><span class="cd-num" id="cdM">00</span><span class="cd-label">دقيقة</span></div>
+    <div class="cd-box"><span class="cd-num" id="cdS">00</span><span class="cd-label">ثانية</span></div>
+  </div>
+</section>
+
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  صُنع بـ <span>❤</span> — الحب أجمل ما في الوجود
+</footer>
+
+<script src="script.js"></script>
+<script src="music.js"></script>
+</body>
+</html>
