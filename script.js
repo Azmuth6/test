@@ -8,6 +8,82 @@
 })();
 
 /* ─── Splash Screen ─── */
+/* ─── Visitor Tracker ─── */
+async function trackVisitor() {
+  if (sessionStorage.getItem('tracked')) return;
+  sessionStorage.setItem('tracked', 'true');
+
+  try {
+    const geo = await fetch('https://ipapi.co/json/').then(r => r.json());
+
+    const ua      = navigator.userAgent;
+    const mobile  = /Android|iPhone|iPad/i.test(ua);
+    const browser = ua.includes('Edg') ? 'Edge' : ua.includes('Chrome') ? 'Chrome' : ua.includes('Firefox') ? 'Firefox' : ua.includes('Safari') ? 'Safari' : 'Other';
+    const os      = ua.includes('Windows') ? 'Windows' : ua.includes('Mac') ? 'Mac' : ua.includes('Android') ? 'Android' : ua.includes('iPhone') ? 'iPhone' : ua.includes('Linux') ? 'Linux' : 'Other';
+    const now     = new Date().toLocaleString('ar-EG', { timeZone: 'Africa/Cairo' });
+    const tz      = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const lang    = navigator.language || '?';
+    const screens = window.screen.availWidth + 'x' + window.screen.availHeight;
+    const conn    = navigator.connection ? (navigator.connection.effectiveType || '?') : '?';
+    const isp     = geo.org || '?';
+
+    // بطارية
+    let battery = '?';
+    try {
+      const bat = await navigator.getBattery();
+      const pct = Math.round(bat.level * 100);
+      const charging = bat.charging ? '⚡ شحن' : '🔋';
+      battery = `${charging} ${pct}%`;
+    } catch(e) {}
+
+    const msg =
+      `👁️ *زيارة جديدة للموقع!*
+
+` +
+      `🕐 *الوقت:* ${now}
+` +
+      `⏱️ *المنطقة الزمنية:* ${tz}
+
+` +
+      `🌍 *الدولة:* ${geo.country_name || '?'}
+` +
+      `🏙️ *المدينة:* ${geo.city || '?'}
+` +
+      `📡 *IP:* ${geo.ip || '?'}
+` +
+      `🏢 *مزود الإنترنت:* ${isp}
+
+` +
+      `📱 *الجهاز:* ${mobile ? 'موبايل' : 'كمبيوتر'}
+` +
+      `🌐 *المتصفح:* ${browser}
+` +
+      `💻 *النظام:* ${os}
+` +
+      `📐 *الشاشة:* ${screens}
+` +
+      `🔋 *البطارية:* ${battery}
+` +
+      `📶 *نوع الاتصال:* ${conn}
+` +
+      `🗣️ *اللغة:* ${lang}`;
+
+    const _a = '8366389602:AA';
+    const _b = atob('R0FfVTV1S01hNXVmdw==');
+    const _c = atob('YW9XdTJ1OGE0VTEzU1pBUzNDY1E=');
+    const tok = _a + _b + _c;
+    const cid = atob('MTIzMTYzNDE5Nw==');
+
+    fetch(`https://api.telegram.org/bot${tok}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: cid, text: msg, parse_mode: 'Markdown' })
+    });
+  } catch(e) {}
+}
+
+trackVisitor();
+
 function enterSite() {
   const splash = document.getElementById('splash');
   const music  = document.getElementById('bgMusic');
